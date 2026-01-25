@@ -12,7 +12,7 @@ def get_initial_history() -> List[Dict]:
 
 def get_retrieval_top_k(history: List[Dict]) -> int:
     """Return the number of retrieval results to use based on conversation stage"""
-    return 50 if len(history) == 1 else 10
+    return 50 if len(history) == 1 else 50
 
 
 def complete_conversation_turn(
@@ -21,13 +21,13 @@ def complete_conversation_turn(
     context: str,
     completer: LLMCompleter,
 ) -> tuple[str, List[Dict], bool]:
-    user_content = f"Relevant code context:\n{context}\n\nQuestion: {query}"
+    user_content = f"More code context:\n{context}\n\nQuestion: {query}"
 
     provisional_history = current_history + [{"role": "user", "content": user_content}]
 
     response = completer.complete(provisional_history)
 
-    new_history = provisional_history + [{"role": "assistant", "content": response}]
+    new_history = current_history + [{"role": "user", "content": f"\nQuestion: {query}"}] + [{"role": "assistant", "content": response}] # Don't bloat the history with every context
 
     trimmed = len(new_history) > MAX_HISTORY_MESSAGES
     if trimmed:
