@@ -14,28 +14,37 @@ def main():
     print("Hytale Modding Assistant CLI")
     print("Type your question about the Hytale server codebase.")
     print("Commands: /clear (reset conversation), /exit (quit)")
+    print("Multi-line input: type your message, press Enter for new lines,")
+    print("then Ctrl+D (Unix/macOS) or Ctrl+Z+Enter (Windows) on a new line to send.")
     print("-" * 50)
 
     history = get_initial_history()
 
     while True:
+        print("\nYou: ", end="", flush=True)
+
         try:
-            query = input("\nYou: ").strip()
-        except (EOFError, KeyboardInterrupt):
+            lines = sys.stdin.readlines()
+        except KeyboardInterrupt:
             print("\nGoodbye!")
             sys.exit(0)
 
-        if not query:
+        query_raw = "".join(lines)
+        query_stripped = query_raw.strip()
+
+        if not query_stripped:
             continue
 
-        if query.lower() == "/exit":
+        if query_stripped.lower() == "/exit":
             print("Goodbye!")
             break
 
-        if query.lower() == "/clear":
+        if query_stripped.lower() == "/clear":
             history = get_initial_history()
             print("Conversation history cleared.")
             continue
+
+        query = query_raw
 
         print("Processing...", end="", flush=True)
 
@@ -63,4 +72,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
