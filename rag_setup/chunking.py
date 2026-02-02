@@ -64,4 +64,4 @@ def parse_repomix_regex(xml_path: str, output_path: str = "code_chunks/chunks.js
 
 
 if __name__ == '__main__':
-    parse_repomix_regex(Path("raw_data/repomix-output.xml"))
+    parse_repomix_regex(Path("data/repomix-output.xml"))

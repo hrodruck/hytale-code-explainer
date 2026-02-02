@@ -1,7 +1,7 @@
 # config.py
 QDRANT_URL = "http://localhost:6333"
 COLLECTION_NAME = "hytale_codebase"
-EMBEDDING_MODEL_NAME = "jinaai/jina-embeddings-v2-base-code"
+EMBEDDING_MODEL_NAME = "mixedbread-ai/mxbai-embed-large-v1"
 
 LLM_BASE_URL = "https://api.x.ai/v1"
 LLM_MODEL = "grok-4-1-fast-reasoning"
