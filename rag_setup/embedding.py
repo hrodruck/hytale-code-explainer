@@ -36,7 +36,7 @@ def extract_code_symbols(content: str) -> Dict[str, List[str]]:
 
 CHUNKS_FILE = "code_chunks/chunks.jsonl"
 COLLECTION_NAME = "hytale_codebase"
-MODEL_NAME = "jinaai/jina-embeddings-v2-base-code"
+MODEL_NAME = "mixedbread-ai/mxbai-embed-large-v1"
 BATCH_SIZE = 2
 QDRANT_URL = "http://localhost:6333"
 
