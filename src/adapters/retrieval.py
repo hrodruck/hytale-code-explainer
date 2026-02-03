@@ -79,3 +79,26 @@ class QdrantCodeRetriever:
         candidates = re.findall(r'[A-Z][a-zA-Z0-9_]+|[a-z]+[A-Z][a-zA-Z0-9_]*|[a-z_]+', query)
         words = re.findall(r'\b\w{4,}\b', query.lower())
         return list(set(candidates + words))
+
+
+class ContextCapturingRetriever:
+    '''A retriever that remembers the retrieved context. Used for evaluation of the RAG pipeline'''
+    def __init__(self, base_retriever: QdrantCodeRetriever):
+        self.base_retriever = base_retriever
+        self.last_retrieved_context: str = ""
+
+    def retrieve(self, query: str, **kwargs) -> str:
+        if self.last_retrieved_context:
+            raise ValueError(
+                "Previous retrieved contexts not cleared. "
+                "Call get_all_captured_contexts() after each turn to reset."
+            )
+        docs = self.base_retriever.retrieve(query, **kwargs)
+        self.last_retrieved_context = docs
+        return docs
+
+    def get_captured_context(self) -> str:
+        """Flatten and return the last capture context then clear."""
+        context = self.last_retrieved_context
+        self.last_retrieved_context = ""
+        return context
