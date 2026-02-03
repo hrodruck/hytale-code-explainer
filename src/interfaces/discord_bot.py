@@ -59,7 +59,7 @@ async def hy_command(ctx: commands.Context, *, query: str = None):
                 llm_completer,
             )
     except Exception:
-        await thinking_msg.edit(content="Sorry, something went wrong.")
+        await thinking_msg.edit(content="Sorry, something went wrong. It may be that the server is at maximum capacity. Please wait and try again.")
         traceback.print_exc()
         return
 
