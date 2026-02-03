@@ -12,9 +12,8 @@ If you are interested, consider joining [this discord server](https://discord.gg
 
 ## Features
 
-- Semantic code search with keyword boosting
-- Expert system prompt enforcing accurate reverse-engineering rules (cite paths/line numbers with precision)
-- Conversation history management and token-overflow trimming
+- Instant answers from the official codebase
+- Helps debug common modding issues (cites paths/line numbers with precision)
 - Clean Architecture structure for maintainability and extensibility
 
 ## Prerequisites
