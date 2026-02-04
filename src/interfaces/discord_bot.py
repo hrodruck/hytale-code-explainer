@@ -7,7 +7,7 @@ import discord
 from discord.ext import commands
 
 from src.adapters.retrieval import QdrantCodeRetriever
-from src.adapters.llm import GrokCompleter
+from src.adapters.llm import get_llm_completer
 from src.application.application import get_initial_history, process_conversation_turn
 from src.utils import split_into_messages, log_usage_metric, anonymize_user_id
 
@@ -25,8 +25,7 @@ bot = commands.Bot(command_prefix=DISCORD_COMMAND_PREFIX, intents=intents, help_
 histories: dict[int, list[dict]] = {}
 
 code_retriever = QdrantCodeRetriever()
-llm_completer = GrokCompleter()
-
+llm_completer = get_llm_completer()
 
 @bot.event
 async def on_ready():

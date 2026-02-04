@@ -3,12 +3,12 @@ import sys
 import traceback
 
 from src.adapters.retrieval import QdrantCodeRetriever
-from src.adapters.llm import GrokCompleter
 from src.application.application import get_initial_history, process_conversation_turn
+from src.adapters.llm import get_llm_completer
 
-# Concrete gateway instances (wiring / dependency injection)
+
 code_retriever = QdrantCodeRetriever()
-llm_completer = GrokCompleter()
+llm_completer = get_llm_completer()
 
 def main():
     print("Hytale Modding Assistant CLI")
