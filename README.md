@@ -1,6 +1,6 @@
 # Hytale Codebase Assistant
 
-A Clean Architecture-based RAG assistant for answering questions about the **Hytale server codebase**. It retrieves relevant Java code snippets from a Qdrant vector database (using Jina embeddings), injects them as context, and generates expert responses via the Grok LLM.
+A Clean Architecture-based RAG assistant for answering questions about the **Hytale server codebase**. It retrieves relevant Java code snippets from a vector database, injects them as context, and generates expert responses via LLM.
 
 Supports two interfaces:
 - **Discord bot** (`!hy` command)
@@ -8,11 +8,11 @@ Supports two interfaces:
 
 Multi-turn conversations with automatic history trimming are supported in both.
 
-If you are interested, consider joining [this discord server](https://discord.gg/nNFtFGgC)
+If you are interested, consider joining [this discord server](https://discord.gg/nNFtFGgC) or adding the [dicord bot](https://discord.com/oauth2/authorize?client_id=1354521709969014924&permissions=92160&integration_type=0&scope=bot) to your own server.
 
 ## Features
 
-- Instant answers from the official codebase
+- Instant answers from the official, actual game codebase
 - Helps debug common modding issues (cites paths/line numbers with precision)
 - Clean Architecture structure for maintainability and extensibility
 
@@ -52,8 +52,9 @@ This prepares the vector database for retrieval.
 3. Sync dependencies: `uv sync`
 4. Set environment variables in a `.env` file or your shell:
 ```bash
-GROK_API_KEY=any_api_key_here #you can edit the URL for a different provider in the configuration file.
+GROK_API_KEY=any_onpenai_compatible_api_key #you can edit the URL for a different provider in the configuration file.
 DISCORD_TOKEN=your_discord_bot_token  # Only needed for Discord mode
+OPENAI_API_KEY=any_onpenai_compatible_api_key #this is for the fallback model, you can also use a different provider
 ```
 5. Ensure Qdrant is running and the codebase collection is indexed (use the scripts in `scripts/` if needed, or check section above)
 
@@ -63,11 +64,20 @@ Use the unified entry point:
 
 ```bash
 # Discord bot
-python main.py discord
+uv run main.py discord
 
 # Interactive CLI
-python main.py cli
+uv run main.py cli
 ```
+## Testing
+
+Prepare a dataset of questions and ansers, one question/answer per line in two different files. Then, run
+
+```bash
+uv run eval_ragas.py
+```
+
+For faithfulness and correctness.
 
 ## Contributing
 
