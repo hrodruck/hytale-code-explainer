@@ -45,7 +45,7 @@ def main():
             history, query, retriever, completer
         )
         
-        end_time = time.perf_counter()  # End timing
+        end_time = time.perf_counter() 
         duration = end_time - start_time
         response_times.append(duration)
         
@@ -62,13 +62,13 @@ def main():
         print(f"Average response time: {avg_time:.2f} seconds (n={len(response_times)})")
         print(f"Total processing time: {total_time:.2f} seconds")
     
-    # Save to timestamped CSV file
+    
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_path = f"data/eval_dataset/generated_answers_{timestamp}.csv"
 
     with open(output_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(["query", "answer", "response_time_seconds"])  # Updated header
+        writer.writerow(["query", "answer", "response_time_seconds"])  
         for q, a, t in zip(questions, answers, response_times):
             writer.writerow([q, a, f"{t:.2f}"])
 
