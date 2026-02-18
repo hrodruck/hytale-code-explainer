@@ -3,7 +3,7 @@
 A Clean Architecture-based RAG assistant for answering questions about the **Hytale server codebase**. It retrieves relevant Java code snippets from a vector database, injects them as context, and generates expert responses via LLM.
 
 Supports two interfaces:
-- **Discord bot** (`!hy` command)
+- **Discord bot** (`!hy` command to ask questions, `!clear` command to reset conversation)
 - **Interactive CLI**
 
 Multi-turn conversations with automatic history trimming are supported in both.
