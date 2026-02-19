@@ -52,7 +52,7 @@ This prepares the vector database for retrieval.
 3. Sync dependencies: `uv sync`
 4. Set environment variables in a `.env` file or your shell:
 ```bash
-GROK_API_KEY=any_onpenai_compatible_api_key #you can edit the URL for a different provider in the configuration file.
+XAI_API_KEY=any_onpenai_compatible_api_key #you can edit for a different provider in the configuration file.
 DISCORD_TOKEN=your_discord_bot_token  # Only needed for Discord mode
 OPENAI_API_KEY=any_onpenai_compatible_api_key #this is for the fallback model, you can also use a different provider
 ```
