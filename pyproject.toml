@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "discord>=2.3.2",
+    "litellm>=1.81.13",
     "openai>=2.15.0",
     "qdrant-client>=1.16.2",
     "ragas>=0.4.3",
