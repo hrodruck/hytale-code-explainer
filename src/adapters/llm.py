@@ -4,9 +4,11 @@ from openai import OpenAI
 from openai import AuthenticationError, RateLimitError, APITimeoutError, APIConnectionError, APIError, APIStatusError
 
 from src.config import (
+    LLM_ENVIRONMENT_KEY_NAME,
     LLM_BASE_URL,
     LLM_MODEL,
     LLM_TEMPERATURE,
+    FALLBACK_LLM_ENVIRONMENT_KEY_NAME,
     FALLBACK_LLM_BASE_URL,
     FALLBACK_LLM_MODEL,
     FALLBACK_LLM_TEMPERATURE,
@@ -88,24 +90,24 @@ class FailoverLLMCompleter:
 def get_llm_completer() -> LLMCompleter:
     """Factory that configures and returns the failover-wrapped LLM completer.
     Raises clear errors on misconfiguration."""
-    grok_key = os.getenv("GROK_API_KEY")
-    if not grok_key:
-        raise ValueError("GROK_API_KEY environment variable is required for primary LLM.")
+    primary_key = os.getenv(LLM_ENVIRONMENT_KEY_NAME)
+    if not primary_key:
+        raise ValueError(f"Primary llm api key environment variable is required. Looking for a variable with this name:\"{LLM_ENVIRONMENT_KEY_NAME}\"")
 
     primary = OpenAICompatibleCompleter(
         base_url=LLM_BASE_URL,
-        api_key=grok_key,
+        api_key=primary_key,
         model=LLM_MODEL,
         temperature=LLM_TEMPERATURE,
     )
 
     fallback: Optional[OpenAICompatibleCompleter] = None
-    openai_key = os.getenv("OPENAI_API_KEY")
-    if openai_key:
+    fallback_key = os.getenv(FALLBACK_LLM_ENVIRONMENT_KEY_NAME)
+    if fallback_key:
         try:
             fallback = OpenAICompatibleCompleter(
                 base_url=FALLBACK_LLM_BASE_URL,
-                api_key=openai_key,
+                api_key=fallback_key,
                 model=FALLBACK_LLM_MODEL,
                 temperature=FALLBACK_LLM_TEMPERATURE,
             )
@@ -113,5 +115,7 @@ def get_llm_completer() -> LLMCompleter:
         except Exception as e:
             print(f"Warning: Failed to configure fallback LLM: {e}")
             # Continue without fallback rather than crashing startup
+    else:
+        print(f"Warning: could not find fallback llm api key, didn't load fallback llm. Looking for a variable with this name:{FALLBACK_LLM_ENVIRONMENT_KEY_NAME}")
 
     return FailoverLLMCompleter(primary=primary, secondary=fallback)
