@@ -3,6 +3,7 @@ model_list:
     litellm_params:
       model: xai/grok-4-1-fast-reasoning
       api_key: os.environ/XAI_API_KEY
+      temperature: 0.2
 
   - model_name: gpt-5-mini
     litellm_params:
