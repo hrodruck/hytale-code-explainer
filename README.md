@@ -16,18 +16,13 @@ If you are interested, consider joining [this discord server](https://discord.gg
 - Helps debug common modding issues (cites paths/line numbers with precision)
 - Clean Architecture structure for maintainability and extensibility
 
-## Prerequisites
+## Usage
 
-- Python 3.10+
-- Local Qdrant instance (http://localhost:6333)
-- OpenAI client-compatible API key
-- (Optional) Discord bot token
-- uv (for dependency management)
-- VineFlower (for decompiling the Hytale JAR)
-- Repomix (for merging the decompiled codebase into a single file)
+If not self-hosting, you can join [this discord server](https://discord.gg/nNFtFGgC) or add the [dicord bot](https://discord.com/oauth2/authorize?client_id=1354521709969014924&permissions=92160&integration_type=0&scope=bot) to your own server.
 
-## Preparing the Codebase
+## Self-hosting
 
+### Vector Database Snapshot
 The assistant requires a processed version of the Hytale server codebase. Start with the official Hytale server JAR:
 
 1. Purchase and download Hytale (available from the official website or launcher).
@@ -41,45 +36,24 @@ The assistant requires a processed version of the Hytale server codebase. Start 
 5. Process the Repomix output with the provided scripts:
    - Run `chunking.py` on `repomix-output.xml` to generate `code_chunks/chunks.jsonl`.
    - Run `embedding.py` on the chunks to compute embeddings and upsert to Qdrant.
-   - (Optional) Use `qdrant_export.py` / `qdrant_import.py` for backups/restores.
+   - Use `qdrant_export.py` to generate a snapshot of the database
+   - Change the snaptshot name in qdrant_import.py to match the result frmo the previous step
 
 This prepares the vector database for retrieval.
 
-## Setup
+### RAG assistant
 
 1. Clone the repository
-2. Install uv (if not already: `curl -LsSf https://astral.sh/uv/install.sh | sh`)
-3. Sync dependencies: `uv sync`
-4. Set environment variables in a `.env` file or your shell:
-```bash
-XAI_API_KEY=any_onpenai_compatible_api_key #you can edit for a different provider in the configuration file.
-DISCORD_TOKEN=your_discord_bot_token  # Only needed for Discord mode
-OPENAI_API_KEY=any_onpenai_compatible_api_key #this is for the fallback model, you can also use a different provider
-```
-5. Ensure Qdrant is running and the codebase collection is indexed (use the scripts in `scripts/` if needed, or check section above)
+2. Create .env according to .env.example
+3. Install docker
+3a. (For the CLI that only you access) docker compose run --rm -it app cli
+3b. (to replicate the discord bot) docker compose --profile discord up discord-bot
 
-## Running
+## Testing, Monitorability
 
-Use the unified entry point:
-
-```bash
-# Discord bot
-uv run main.py discord
-
-# Interactive CLI
-uv run main.py cli
-```
-## Testing
-
-Prepare a dataset of questions and ansers, one question/answer per line in two different files. Then, run
-
-```bash
-uv run eval_ragas.py
-```
-
-For faithfulness and correctness.
+For testing (manual and RAGAS) check the eval folder. For monitorability, LLMLite is used.
 
 ## Contributing
 
 Feel free to open issues or PRs. The project emphasizes clean separation of concerns—keep delivery mechanisms thin and push rules inward.
-Enjoy exploring the Hytale codebase!
+Enjoy modding!
