@@ -1,9 +1,9 @@
+import os
 import json
 import re
 from pathlib import Path
 from tqdm import tqdm
 from typing import Dict, List, Set
-
 from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Distance, VectorParams
@@ -38,7 +38,7 @@ CHUNKS_FILE = "code_chunks/chunks.jsonl"
 COLLECTION_NAME = "hytale_codebase"
 MODEL_NAME = "mixedbread-ai/mxbai-embed-large-v1"
 BATCH_SIZE = 2
-QDRANT_URL = "http://localhost:6333"
+QDRANT_URL = os.getenv("QDRANT_URL")
 
 
 print(f"Loading chunks from {CHUNKS_FILE}...")

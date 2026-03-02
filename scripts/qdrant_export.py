@@ -1,6 +1,7 @@
 from qdrant_client import QdrantClient
+import os
 
-client = QdrantClient("localhost", port=6333)  # Adjust if needed
+client = QdrantClient(url=os.getenv("QDRANT_URL"))
 snapshot = client.create_snapshot(collection_name="hytale_codebase")
 print(snapshot)  # Shows name and location, e.g., /qdrant/snapshots/hytale_codebase/...
 
