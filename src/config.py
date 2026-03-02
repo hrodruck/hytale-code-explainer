@@ -1,13 +1,14 @@
-# config.py
-QDRANT_URL = "http://localhost:6333"
+import os
+
+QDRANT_URL = os.getenv("QDRANT_URL")
 COLLECTION_NAME = "hytale_codebase"
 EMBEDDING_MODEL_NAME = "mixedbread-ai/mxbai-embed-large-v1"
 
 RETRIEVAL_FIRST_TOP_K = 30
 RETRIEVAL_USUAL_TOP_K = 30
 
-LLM_ENVIRONMENT_KEY_NAME="LITELLM_VIRTUAL_KEY"
-LLM_BASE_URL = "http://localhost:4000/v1"
+LLM_ENVIRONMENT_KEY_NAME="LITELLM_MASTER_KEY"
+LLM_BASE_URL = os.getenv("LITELLM_API_BASE")
 LLM_MODEL = "grok-4-1-fast-reasoning"
 
 DISCORD_COMMAND_PREFIX = "!"
